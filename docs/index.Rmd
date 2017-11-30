@@ -18,6 +18,7 @@ require(tidyverse)
 ```{r mpg}
 g <- ggplot(data=mpg, aes(x=displ, y=hwy))
 g + geom_point()
+2+2
 ```
 
 
