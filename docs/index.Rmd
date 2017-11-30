@@ -62,10 +62,34 @@ ggplot(data=mpg, aes(x=drv, y=hwy, color=class)) +
   geom_violin() +
   theme_classic()
 ```
+
 ##multiple geoms
 ```{r mult geoms}
 ggplot(data=mpg) +
   geom_point(aes(x=displ, y=hwy)) +
   geom_smooth(aes(x=displ, y=hwy)) +
   theme_classic() 
+```
+
+# Learn to wrange and tidy data
+```{r gapminder, include=F}
+gapminder <- readr::read_csv('https://raw.githubusercontent.com/jules32/2017-11-30-MBARI/gh-pages/data/gapminder.csv') 
+```
+
+##Manipulate data with dplyr
+```{r dplyr}
+#in dplyr, first argument is always the data. Subsequent arguments say what to do with it
+#result is new data frame
+
+# 1. pick out observations by value (pick out rows)
+filter(gapminder, lifeExp < 29)
+filter(gapminder, country %in% c("Mexico", "Peru"))
+
+## find mean life expectancy for Sweden
+### one way: 
+meanLifeExp <- mean(filter(gapminder, country == "Sweden")$lifeExp)
+### other way with pipe operator %>% (CONTROL SHIFT M):
+gapminder %>% filter(country == "Sweden") %>% summarise(mean(lifeExp))
+
+
 ```
