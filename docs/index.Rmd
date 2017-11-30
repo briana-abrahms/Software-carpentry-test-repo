@@ -17,13 +17,55 @@ require(tidyverse)
 ##Scatterplot
 ```{r mpg}
 g <- ggplot(data=mpg, aes(x=displ, y=hwy))
-g + geom_point()
-2+2
+g + geom_point() + theme_classic()
 ```
 
 
-
-```{r, echo=FALSE}
-
+##Add color
+```{r color}
+ggplot(data=mpg, aes(x=displ, y=hwy, color=class)) +
+  geom_point() + 
+  theme_classic()
 ```
 
+##Change shape for B&W figure
+```{r shape}
+ggplot(data=mpg, aes(x=displ, y=hwy, shape=class)) +
+  geom_point() +
+  theme_classic()
+```
+
+##Change point size for B&W figure
+```{r size}
+ggplot(data=mpg, aes(x=displ, y=hwy, size=class)) +
+  geom_point() +
+  theme_classic()
+```
+
+##Change point color, size and alpha
+```{r alpha}
+ggplot(data=mpg, aes(x=cty, y=hwy, size=class, color=fl)) +
+  geom_point(alpha=0.4) +
+  theme_classic()
+```
+
+##Jitter plot
+```{r jitter}
+ggplot(data=mpg, aes(x=cty, y=hwy, size=class, color=fl)) +
+  geom_jitter(alpha=0.4) +
+  theme_classic()
+```
+
+##violin plot
+```{r violin}
+ggplot(data=mpg, aes(x=drv, y=hwy, color=class)) +
+  geom_violin() +
+  theme_classic()
+```
+##multiple geoms
+```{r mult geoms}
+ggplot(data=mpg) +
+  geom_point(aes(x=displ, y=hwy)) +
+  geom_smooth(aes(x=displ, y=hwy)) +
+  theme_classic() 
+```
