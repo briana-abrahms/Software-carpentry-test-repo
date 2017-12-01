@@ -84,12 +84,64 @@ gapminder <- readr::read_csv('https://raw.githubusercontent.com/jules32/2017-11-
 # 1. pick out observations by value (pick out rows)
 filter(gapminder, lifeExp < 29)
 filter(gapminder, country %in% c("Mexico", "Peru"))
+gapminder %>% 
+  filter(country == "Mexico", year == 2002)
 
 ## find mean life expectancy for Sweden
 ### one way: 
 meanLifeExp <- mean(filter(gapminder, country == "Sweden")$lifeExp)
 ### other way with pipe operator %>% (CONTROL SHIFT M):
-gapminder %>% filter(country == "Sweden") %>% summarise(mean(lifeExp))
+gapminder %>% 
+  filter(country == "Sweden") %>% 
+  summarise(mean(lifeExp))
 
+#2. select observations by variable (pick out columns)
+select(gapminder, year, lifeExp)
+gapminder %>% 
+  select(year,lifeExp)
 
+gapminder %>% 
+  filter(country=="Cambodia") %>% 
+  select(-continent, -lifeExp)
+
+#3. create new variables in new columns with mutate
+##new column for GDP
+gapminder %>% 
+  mutate(gdp = pop * gdpPercap)
+
+##add index, only look at head
+gapminder %>% 
+  mutate(index=1:nrow(gapminder)) %>% 
+  head()
+
+##can combine mutates
+gapminder %>% 
+  mutate(index=1:nrow(gapminder),
+         gdp=pop*gdpPercap)
+
+# group by!
+##find the maximum GDP per capita for Egypt and Vietnam
+gapminder %>% 
+  filter(country %in% c("Egypt","Vietnam")) %>% 
+  group_by(country) %>% 
+  summarise(max(gdpPercap))
+
+##make new column for max GDP for each country
+gapminder %>% 
+  group_by(country) %>% 
+  mutate(max(gdpPercap))
+
+##new data frame only showing maximum GDP for each country (one entry per country)
+gapminder %>% 
+  group_by(country) %>% 
+  mutate(max(gdpPercap)) %>% 
+  filter(max(gdpPercap) == gdpPercap)
+
+#4. order rows with arrange
+## ascending order by max gdp
+gapminder %>% 
+  group_by(country) %>% 
+  mutate(maxgdp = max(gdpPercap)) %>% 
+  filter(maxgdp == gdpPercap) %>%
+  arrange(maxgdp)
 ```
